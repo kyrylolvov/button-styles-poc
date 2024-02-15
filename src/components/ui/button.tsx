@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
-import { cn } from '~/utils';
+import { cn } from '~/utils/cn';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
@@ -17,7 +17,7 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: 'h-10 px-4 py-2',
+        default: 'h-9 rounded-md px-3',
         sm: 'h-9 rounded-md px-3',
         lg: 'h-11 rounded-md px-8',
         icon: 'h-10 w-10',
@@ -34,12 +34,30 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  isNeumorphic?: boolean;
+  isActive?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, isNeumorphic = false, isActive = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+
+    return (
+      <Comp
+        style={{
+          // @ts-expect-error - neumorphic-box-shadow is not a valid CSS property
+          '--neumorphic-box-shadow':
+            '0rem -.0625rem 0rem 0rem #b5b5b5 inset, 0rem 0rem 0rem .0625rem rgba(0, 0, 0, .1) inset, 0rem .03125rem 0rem .09375rem #FFF inset',
+        }}
+        className={cn(
+          buttonVariants({ variant, size, className }),
+          isNeumorphic && 'border-none [box-shadow:var(--neumorphic-box-shadow)]',
+          isNeumorphic && isActive && 'border-none [box-shadow:var(--neumorphic-box-shadow-active)]',
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
   },
 );
 Button.displayName = 'Button';
