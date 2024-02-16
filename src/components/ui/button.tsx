@@ -39,15 +39,17 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, isNeumorphic = false, isActive = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, isNeumorphic = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
 
     return (
       <Comp
         className={cn(
           buttonVariants({ variant, size, className }),
-          isNeumorphic && 'border-none [box-shadow:var(--neumorphic-outline-button)]',
-          isNeumorphic && isActive && 'border-none [box-shadow:var(--neumorphic-box-shadow-active)]',
+          isNeumorphic && variant === 'outline' && 'border-none [box-shadow:var(--neumorphic-outline-button)]',
+          isNeumorphic && variant === 'secondary' && 'border-none [box-shadow:var(--neumorphic-secondary-button)]',
+          isNeumorphic && variant === 'default' && 'border-none [box-shadow:var(--neumorphic-primary-button)]',
+          isNeumorphic && variant === 'destructive' && 'border-none [box-shadow:var(--neumorphic-destructive-button)]',
         )}
         ref={ref}
         {...props}
