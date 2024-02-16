@@ -1,13 +1,24 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Button } from './components/ui/button';
 import { getCssVariableValue } from './utils/common';
+import tinycolor from 'tinycolor2';
 
 function App() {
   const lightModeContainer = useRef<HTMLDivElement | null>(null);
   const darkModeContainer = useRef<HTMLDivElement | null>(null);
 
-  console.log(getCssVariableValue('--background', lightModeContainer.current!));
-  console.log(getCssVariableValue('--background', darkModeContainer.current!));
+  useEffect(() => {
+    const outlineButtonBackground = getCssVariableValue('--background', lightModeContainer.current!);
+
+    const outlineButtonShadowColor1 = tinycolor(outlineButtonBackground).darken(29).toHexString();
+    const outlineButtonShadowColor2 = tinycolor(outlineButtonBackground).darken(100).setAlpha(0.1).toHex8String();
+
+    const outlineNeumorphicButtonVariable = `0rem -.0625rem 0rem 0rem ${outlineButtonShadowColor1} inset, 0rem 0rem 0rem .0625rem ${outlineButtonShadowColor2} inset, 0rem .03125rem 0rem .09375rem ${tinycolor(
+      outlineButtonBackground,
+    ).toHexString()} inset`;
+
+    document.documentElement.style.setProperty('--neumorphic-outline-button', outlineNeumorphicButtonVariable);
+  }, []);
 
   return (
     <div className="h-screen w-scree grid grid-cols-2">

@@ -1,5 +1,5 @@
 # Project Name
-Shadcn Button Styles (Neumorphism, Neobrutalism) PoC
+Shadcn Button Styles (Neumorphism, Neobrutalism, etc.) PoC
 
 ## Description
 This project showcases different button styles inspired by the concepts of Neumorphism and Neobrutalism. It serves as a proof of concept for implementing these styles in web applications.

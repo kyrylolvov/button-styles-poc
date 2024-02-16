@@ -44,14 +44,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <Comp
-        style={{
-          // @ts-expect-error - neumorphic-box-shadow is not a valid CSS property
-          '--neumorphic-box-shadow':
-            '0rem -.0625rem 0rem 0rem #b5b5b5 inset, 0rem 0rem 0rem .0625rem rgba(0, 0, 0, .1) inset, 0rem .03125rem 0rem .09375rem #FFF inset',
-        }}
         className={cn(
           buttonVariants({ variant, size, className }),
-          isNeumorphic && 'border-none [box-shadow:var(--neumorphic-box-shadow)]',
+          isNeumorphic && 'border-none [box-shadow:var(--neumorphic-outline-button)]',
           isNeumorphic && isActive && 'border-none [box-shadow:var(--neumorphic-box-shadow-active)]',
         )}
         ref={ref}
